@@ -20,8 +20,9 @@ def main():
 
 #function to read in files and create output to file
 def setFiledata():
+
     """ working code, just want to comment out so I don't have to maunally
-        enter in the data each time will still creating this.
+    enter in the data each time will still creating this.
     #ask for dir for file to read from
     fdir = raw_input("Enter directory to check: ")
 
@@ -42,12 +43,19 @@ def setFiledata():
         f = file(fname + ".txt", "r+")
     else:
         f = file(fname + ".txt", "w")
+            
 
     #temp set of dir so I don't have to enter it every time
-    var = "F:\\Python27\\Test"
+    fdir = "F:\\Python27\\Test"
 
+    dSearch(fdir, f)
+
+        
+#function to check directory for files(recursive)
+def dSearch(filedir, fsave):
+    
     #prints out size of file in an easier to read format
-    for filename in os.listdir(var):
+    for filename in os.listdir(filedir):
         print filename
         filesize = os.path.getsize(filename)
 
@@ -63,16 +71,18 @@ def setFiledata():
         #check if the current file is a directory of file
         #output debug info to make sure working correctly
         if os.path.isdir(filename):
-            #TODO if a folder jump into folder and do more checks
+            #if folder set name and value to -1 to mark as a folder
+            #call the function again with the value set to 1 to skip initial checks
             print("is a folder\n")
+            fsave.write(filename + "\n")
+            fsave.write("-1\n")
+            #dSearch(filedir + "\\" + filename, fsave)
         else:
             print("is a file\n")
-
-        #Set the file name on one line and the file size on a different
-        #line inside a file for easier reading
-        f.write(filename + "\n")
-        f.write(str(filesize) + "\n")
-    
+            #Set the file name on one line and the file size on a different
+            #line inside a file for easier reading
+            fsave.write(filename + "\n")
+            fsave.write(str(filesize) + "\n")
 
 
 #fucntion to compare files
