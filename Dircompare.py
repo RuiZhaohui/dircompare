@@ -47,17 +47,18 @@ def setFiledata():
 
     #temp set of dir so I don't have to enter it every time
     fdir = "F:\\Python27\\Test"
-
+    
     dSearch(fdir, f)
 
         
 #function to check directory for files(recursive)
 def dSearch(filedir, fsave):
-    
+
+
     #prints out size of file in an easier to read format
     for filename in os.listdir(filedir):
         print filename
-        filesize = os.path.getsize(filename)
+        filesize = os.path.getsize(filedir + "//" + filename)
 
         #output filesize in easier to read format then bytes
         if filesize >= 1048576:
@@ -76,7 +77,7 @@ def dSearch(filedir, fsave):
             print("is a folder\n")
             fsave.write(filename + "\n")
             fsave.write("-1\n")
-            #dSearch(filedir + "\\" + filename, fsave)
+            dSearch(filedir + "\\" + filename, fsave)
         else:
             print("is a file\n")
             #Set the file name on one line and the file size on a different
