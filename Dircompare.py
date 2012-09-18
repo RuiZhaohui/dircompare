@@ -13,6 +13,9 @@ def main():
 
     mw = mWindow()   
     sys.exit(app.exec_())
+    
+    
+    #setFiledata("C:\\Python27\\Test" ,"apple")
 
 #function to read in files and create output to file
 def setFiledata(fdir, filename):
@@ -108,7 +111,9 @@ class mWindow(QtGui.QWidget):
 
     def initUI(self):            
         
-        self.setGeometry(600, 600, 300, 300)
+        #self.setGeometry(600, 600, 300, 300)
+        self.wsize = 0
+        self.resize(300, 300)
         self.setWindowTitle('Directory Compare')
        
         #labels
@@ -142,19 +147,30 @@ class mWindow(QtGui.QWidget):
         CheckDirB  = QtGui.QPushButton('Select', self)
         CheckDirB2 = QtGui.QPushButton('select', self)
         CompareB   = QtGui.QPushButton('Compare', self)
+        self.expandB    = QtGui.QPushButton('>', self)
 
         ScanDirB.move(220, 12)
         ScanSaveB.move(110, 65)
         CheckDirB.move(220, 115)
         CheckDirB2.move(220, 145)
         CompareB.move(110, 180)
+        self.expandB.move(220, 270)
         
         ScanDirB.clicked.connect(self.scanButtonClicked)
         ScanSaveB.clicked.connect(self.SaveDirButtonClicked)
         CheckDirB.clicked.connect(self.CheckDirButton1Clicked)
         CheckDirB2.clicked.connect(self.CheckDirButton2Clicked)
         CompareB.clicked.connect(self.CompareButtonClicked)
+        self.expandB.clicked.connect(self.ExpandButtonClicked)
 
+        #table
+        table = QtGui.QTableWidget(10, 3, self)
+        table.move(300, 0)
+        table.resize(300, 300)
+        header_list = ['File', 'Size', 'Change']
+        table.setHorizontalHeaderLabels(header_list)
+        
+    
 
         #display all
         self.show()
@@ -179,8 +195,16 @@ class mWindow(QtGui.QWidget):
             self.Results.setText("Files are the same")
         else:
             self.Results.setText("Files are different")
-        
-        
+
+    def ExpandButtonClicked(self):
+        if self.wsize == 0:
+            self.resize(600, 300)
+            self.wsize = 1
+            self.expandB.setText("<")
+        else:
+            self.resize(300, 300)
+            self.wsize = 0
+            self.expandB.setText(">")
             
 #standard to call main function 
 if __name__ == '__main__':
